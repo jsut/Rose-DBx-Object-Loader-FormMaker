@@ -1,0 +1,4 @@
+Build.PL
+lib/Rose/DBx/Object/Loader/FormMaker.pm
+MANIFEST			This list of files
+t/load.t
