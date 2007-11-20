@@ -1,7 +1,0 @@
-lib/Rose/DBx/Object/Loader/FormMaker.pm
-MANIFEST			This list of files
-MANIFEST.SKIP
-t/__load.t
-t/_formmaker.t
-t/pod.t
-t/pod_coverage.t
