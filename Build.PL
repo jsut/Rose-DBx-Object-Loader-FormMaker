@@ -9,7 +9,9 @@ my $build = Module::Build->new(
     create_readme       => 1,
     dist_author         => 'Adam Prime (adam.prime@utoronto.ca)',
     requires            => {
-        'Rose::DB::Object::Loader'     => '0',
+        'Rose::DB::Object::Loader' => '0',
+        'Test::More'               => '0',
+	'Rose::DBx::TestDB'        =>  0.04,
     },
 );
 

@@ -22,9 +22,19 @@ version 0.01
 
 our $VERSION = '0.01';
 
-#
-# basically ripped from loader
-#
+=head2 make_modules
+
+=over 4
+
+see the documentation for Rose::DB::Object::Loader for the bulk of the 
+configuration options for make_modules.  FormMaker adds a single element 
+to that called form_prefix, which is the prefix you want on your form classes.
+Very much the same as class_prefix in RDBO::Loader
+
+=back
+
+=cut
+
 sub make_modules {
     my ($self,%args) = @_;
 
@@ -92,9 +102,17 @@ sub make_modules {
     return wantarray ? @classes : \@classes; 
 }
 
-#
-# returns perl for an RHTMLO form based on the RDBO class passed in
-#
+=head2 class_to_form
+
+=over 4
+
+class_to_form takes an RDBO class, and using it's meta information 
+constructs an RHTMLO Form object.
+
+=back
+
+=cut
+
 sub class_to_form {
     my ($self, $class) = @_;
     my $class_name = scalar $class;
@@ -140,10 +158,12 @@ sub build_form {
     return $code;
 }
 
+=head2 form_prefix
 
-#
-# ripped from loader, lets forms have their own prefix
-#
+form_prefix is just for the initialization of the form_prefix option to FormMaker
+
+=cut
+
 sub form_prefix {
     my($self) = shift;
 
