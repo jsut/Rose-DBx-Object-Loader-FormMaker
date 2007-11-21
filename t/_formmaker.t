@@ -1,9 +1,10 @@
-use Test::More tests => 1;
+use Test::More tests => 2;
 
 use File::Temp ( 'tempdir' );
 use Rose::DBx::TestDB;
 use Path::Class;
 use Rose::HTML::Form;
+use Rose::DBx::Object::Loader::FormMaker
 
 my $debug = $ENV{PERL_DEBUG} || 0;
 
@@ -24,3 +25,22 @@ ok( $db->dbh->do(
 ),
     "table foo created"
 );
+
+ok(
+my $formmaker = Rose::DBx::Object::Loader::FormMaker->new(
+        db               => $db,
+	class_prefix     => qq[Test::DB],
+	form_prefix      => qq[Test::Form],
+
+    )#;
+    , "form maker object created" );
+
+#print STDERR qq[$formmaker\n];
+#print STDERR qq[i$!\n]
+
+my $dir = tempdir('rdbolf_XXXX', CLEANUP => 1);
+
+
+$formmaker->make_modules(module_dir => $dir);
+
+sleep 60;

@@ -5,6 +5,7 @@ use warnings;
 
 use Rose::DB::Object::Loader;
 use Carp;
+use Cwd;
 use File::Path;
 use File::Spec;
 
