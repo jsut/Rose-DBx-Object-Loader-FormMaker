@@ -12,6 +12,7 @@ my $build = Module::Build->new(
         'Rose::DB::Object::Loader' => '0',
         'Test::More'               => '0',
 	'Rose::DBx::TestDB'        =>  0.04,
+	'Path::Class'              =>  0,
     },
 );
 
