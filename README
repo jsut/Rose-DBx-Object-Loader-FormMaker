@@ -1,0 +1,22 @@
+NAME
+    Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms
+    for RDBO Objects
+
+VERSION
+    version 0.01
+
+  make_modules
+        see the documentation for Rose::DB::Object::Loader for the bulk of
+        the configuration options for make_modules. FormMaker adds a single
+        element to that called form_prefix, which is the prefix you want on
+        your form classes. Very much the same as class_prefix in
+        RDBO::Loader
+
+  class_to_form
+        class_to_form takes an RDBO class, and using it's meta information
+        constructs an RHTMLO Form object.
+
+  form_prefix
+    form_prefix is just for the initialization of the form_prefix option to
+    FormMaker
+
