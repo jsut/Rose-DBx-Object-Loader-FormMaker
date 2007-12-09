@@ -38,7 +38,7 @@ my $formmaker = Rose::DBx::Object::Loader::FormMaker->new(
 #print STDERR qq[$formmaker\n];
 #print STDERR qq[i$!\n]
 
-my $dir = tempdir('rdbolf_XXXX', CLEANUP => 1);
+my $dir = tempdir('/tmp/rdbolf_XXXX', CLEANUP => 1);
 
 
 $formmaker->make_modules(module_dir => $dir);
