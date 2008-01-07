@@ -8,7 +8,9 @@ use Carp;
 use Cwd;
 use File::Path;
 use File::Spec;
-
+use Rose::Object::MakeMethods::Generic (
+  scalar => ['base_tabindex']
+);
 BEGIN { our @ISA = qw(Rose::DB::Object::Loader) }
 
 =head1 NAME
@@ -17,20 +19,34 @@ Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms for RDBO
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
-=head2 make_modules
+=head2 B<make_modules [PARAMS]>
+
+see the documentation for Rose::DB::Object::Loader for the bulk of the 
+configuration options for make_modules. FormMaker adds a couple of options
+to what Loader provides described below:
 
 =over 4
 
-see the documentation for Rose::DB::Object::Loader for the bulk of the 
-configuration options for make_modules.  FormMaker adds a single element 
-to that called form_prefix, which is the prefix you want on your form classes.
-Very much the same as class_prefix in RDBO::Loader
+=item B<form_prefix [PREFIX]>
+
+The prefix used for Form classes created by FormMaker.  Basically the same thing
+as class_prefix provided by loader.  It must not be the same as class_prefix or
+Bad Things will happen.
+
+=item B<form_base_classes [ CLASS | ARRAYREF ]>
+
+The same as base_classes, but for Forms. Defaults to 'Rose::HTML::Form'.
+
+=item B<base_tabindex [ SCALAR ]>
+
+The lowest tabindex that should be used for form elements in the created forms.
+Defaults to 1.
 
 =back
 
@@ -45,7 +61,8 @@ sub make_modules {
         delete $args{'module_dir'} : $self->module_dir;
 
     $module_dir = cwd()  unless(defined $module_dir);
-
+    
+    my @form_classes;
     foreach my $class (@classes) {
 
         next unless ($class->isa('Rose::DB::Object'));
@@ -55,6 +72,8 @@ sub make_modules {
 	my $form_prefix = $self->form_prefix;
 
 	$class_name =~ s|$class_prefix|$form_prefix|;
+	push @form_classes, $class_name;
+
         my @path = split('::', $class_name);
         $path[-1] .= '.pm';
         unshift(@path, $module_dir);
@@ -99,6 +118,7 @@ sub make_modules {
             }
         }
     }
+    push @classes, @form_classes;
 
     return wantarray ? @classes : \@classes; 
 }
@@ -123,20 +143,28 @@ sub class_to_form {
     
     my $code;
 
+    my $base_classes = $self->form_base_classes;
+    my $uses;
+    my $isa;
+    foreach my $class (@$base_classes) {
+        $uses .= $uses ? qq[\n] . qq[use $class;] : qq[use $class;];
+	$isa .= $isa ? qq[ ]. $class : $class;
+    }
+
     $code .=qq[package $class_name;
 
 use strict;
 use warnings;
 
-use Rose::HTML::Form;
-our \@ISA = qw(Rose::HTML::Form);
+$uses
+our \@ISA = qw($isa);
 
 sub build_form {
     my(\$self) = shift;
 
     \$self->add_fields (
 ];
-    my $count = 1;
+    my $count = $self->base_tabindex || 1;
     foreach my $column (sort __by_rank $class->meta->columns){
         #print STDERR $column.qq[ ] . $column->type .qq[\n];
         #$code .= $column.qq[\n];
@@ -153,6 +181,7 @@ sub build_form {
     $code .= qq[
     );
 }
+
 1;
 ];
     
@@ -195,4 +224,32 @@ sub __by_rank {
   }
 
   return lc($a->name) cmp lc($b->name);
+}
+
+=head2 form_base_classes
+
+get/set the base class(es) for the Form objects
+
+=cut
+sub form_base_classes {
+    my $self = shift;
+
+    unless (@_) {
+        if (my $bc = $self->{'form_base_classes'}) {
+            return wantarray ? @$bc : $bc;
+	}
+	my $bc = [qq[Rose::HTML::Form]];
+	
+	return wantarray ? @$bc : $bc;
+    }
+    
+    my $bc = shift;
+
+    unless (ref($bc)) {
+        $bc = [ $bc ];
+    }
+    
+    $self->{'form_base_classes'} = $bc;
+    return wantarray ? @$bc : $bc;
+
 }

@@ -1,10 +1,13 @@
-use Test::More tests => 2;
+use lib (qw(t));
+use Test::More tests => 2 + 1;
 
 use File::Temp ( 'tempdir' );
 use Rose::DBx::TestDB;
 use Path::Class;
 use Rose::HTML::Form;
-use Rose::DBx::Object::Loader::FormMaker
+use Rose::DBx::Object::Loader::FormMaker;
+use Cwd;
+use Test::Form;
 
 my $debug = $ENV{PERL_DEBUG} || 0;
 
@@ -28,19 +31,28 @@ ok( $db->dbh->do(
 
 ok(
 my $formmaker = Rose::DBx::Object::Loader::FormMaker->new(
-        db               => $db,
-	class_prefix     => qq[Test::DB],
-	form_prefix      => qq[Test::Form],
-
-    )#;
-    , "form maker object created" );
-
-#print STDERR qq[$formmaker\n];
-#print STDERR qq[i$!\n]
-
-my $dir = tempdir('/tmp/rdbolf_XXXX', CLEANUP => 1);
+        db                => $db,
+	class_prefix      => qq[Test::DB],
+	form_prefix       => qq[Test::Form],
+	form_base_classes => qq[Test::Form],
+	base_tabindex     => 15,
+    )
+, "form maker object created" );
 
 
-$formmaker->make_modules(module_dir => $dir);
+my $dir = tempdir(
+    '/tmp/rdbolf_XXXX', 
+    CLEANUP => 1
+);
 
-sleep 60;
+my @classes = $formmaker->make_modules(module_dir => $dir);
+
+#
+# use lib wouldn't work with a variable so i'm unshifting onto @INC
+#
+unshift(@INC, $dir);
+
+foreach my $class (@classes) {
+    next unless $class =~ m/Test::Form/;
+    use_ok($class);
+}
