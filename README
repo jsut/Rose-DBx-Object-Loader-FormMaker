@@ -5,12 +5,23 @@ NAME
 VERSION
     version 0.01
 
-  make_modules
-        see the documentation for Rose::DB::Object::Loader for the bulk of
-        the configuration options for make_modules. FormMaker adds a single
-        element to that called form_prefix, which is the prefix you want on
-        your form classes. Very much the same as class_prefix in
-        RDBO::Loader
+  make_modules [PARAMS]
+    see the documentation for Rose::DB::Object::Loader for the bulk of the
+    configuration options for make_modules. FormMaker adds a couple of
+    options to what Loader provides described below:
+
+    form_prefix [PREFIX]
+        The prefix used for Form classes created by FormMaker. Basically the
+        same thing as class_prefix provided by loader. It must not be the
+        same as class_prefix or Bad Things will happen.
+
+    form_base_classes [ CLASS | ARRAYREF ]
+        The same as base_classes, but for Forms. Defaults to
+        'Rose::HTML::Form'.
+
+    base_tabindex [ SCALAR ]
+        The lowest tabindex that should be used for form elements in the
+        created forms. Defaults to 1.
 
   class_to_form
         class_to_form takes an RDBO class, and using it's meta information
@@ -19,4 +30,7 @@ VERSION
   form_prefix
     form_prefix is just for the initialization of the form_prefix option to
     FormMaker
+
+  form_base_classes
+    get/set the base class(es) for the Form objects
 

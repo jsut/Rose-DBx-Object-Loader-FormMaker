@@ -19,11 +19,11 @@ Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms for RDBO
 
 =head1 VERSION
 
-version 0.02
+version 0.01
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.01';
 
 =head2 B<make_modules [PARAMS]>
 
