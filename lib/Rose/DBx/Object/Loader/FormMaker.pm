@@ -1,7 +1,6 @@
 package Rose::DBx::Object::Loader::FormMaker;
 
 use strict;
-use warnings;
 
 use Rose::DB::Object::Loader;
 use Carp;
@@ -17,7 +16,11 @@ BEGIN { our @ISA = qw(Rose::DB::Object::Loader) }
 
 =head1 NAME
 
-Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms for RDBO Objects
+Rose::DBx::Object::Loader::FormMaker - Automatically create RHTMLO Forms with the RDBO Loader
+
+=head1 SYNOPSIS
+
+hi there
 
 =head2 B<make_modules [PARAMS]>
 

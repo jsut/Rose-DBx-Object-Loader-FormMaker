@@ -1,9 +1,9 @@
 ---
 name: Rose-DBx-Object-Loader-FormMaker
-version: 0.01
+version: 0.02
 author:
   - Adam Prime (adam.prime@utoronto.ca)
-abstract: Automatically create RHTMLO forms for RDBO Objects
+abstract: Automatically create RHTMLO Forms with the RDBO Loader
 license: perl
 resources:
   license: http://dev.perl.org/licenses/
@@ -15,7 +15,7 @@ requires:
 provides:
   Rose::DBx::Object::Loader::FormMaker:
     file: lib/Rose/DBx/Object/Loader/FormMaker.pm
-    version: 0.01
+    version: 0.02
 generated_by: Module::Build version 0.2808
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.2.html

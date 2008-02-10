@@ -1,9 +1,9 @@
 NAME
-    Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms
-    for RDBO Objects
+    Rose::DBx::Object::Loader::FormMaker - Automatically create RHTMLO Forms
+    with the RDBO Loader
 
-VERSION
-    version 0.01
+SYNOPSIS
+    hi there
 
   make_modules [PARAMS]
     see the documentation for Rose::DB::Object::Loader for the bulk of the
