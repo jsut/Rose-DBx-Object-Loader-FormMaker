@@ -12,6 +12,7 @@ WriteMakefile(
     'PREREQ_PM'         => {
         'Rose::DB::Object'      => 0.765,
         'Rose::HTML::Object'    => 0.549,
+        'Rose::DBx::TestDB'     => 0.04,
         'Path::Class'           => 0,
         },
     );
