@@ -1,0 +1,4 @@
+2008-02-10  Adam Prime <adam.prime@utoronto.ca>
+
+	* Makefile.PL: Added requirement for Rose::DBx::TestDB to Makefile
+

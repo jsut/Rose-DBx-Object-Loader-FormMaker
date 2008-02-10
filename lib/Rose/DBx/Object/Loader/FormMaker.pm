@@ -11,19 +11,13 @@ use File::Spec;
 use Rose::Object::MakeMethods::Generic (
   scalar => ['base_tabindex']
 );
+our $VERSION = '0.02';
+
 BEGIN { our @ISA = qw(Rose::DB::Object::Loader) }
 
 =head1 NAME
 
 Rose::DB::Object::Loader::FormMaker - Automatically create RHTMLO forms for RDBO Objects
-
-=head1 VERSION
-
-version 0.01
-
-=cut
-
-our $VERSION = '0.01';
 
 =head2 B<make_modules [PARAMS]>
 
@@ -253,3 +247,5 @@ sub form_base_classes {
     return wantarray ? @$bc : $bc;
 
 }
+
+1;
