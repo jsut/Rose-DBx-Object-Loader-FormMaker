@@ -10,7 +10,7 @@ my $build = Module::Build->new(
     dist_author         => 'Adam Prime (adam.prime@utoronto.ca)',
     requires            => {
         'Rose::DB::Object'         => '0i.765',
-        'Rose::HTML::Object'       => '0.549',
+        'Rose::HTML::Objects'       => '0.549',
 	'Rose::DBx::TestDB'        =>  0.04,
 	'Path::Class'              =>  0,
     },
