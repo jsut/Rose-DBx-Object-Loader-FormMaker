@@ -10,7 +10,7 @@ use File::Spec;
 use Rose::Object::MakeMethods::Generic (
   scalar => ['base_tabindex']
 );
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 BEGIN { our @ISA = qw(Rose::DB::Object::Loader) }
 
