@@ -8,7 +8,7 @@ use Cwd;
 use File::Path;
 use File::Spec;
 use Rose::Object::MakeMethods::Generic (
-  scalar => ['base_tabindex']
+    scalar => ['base_tabindex']
 );
 our $VERSION = '0.03';
 
@@ -24,7 +24,7 @@ hi there
 
 =head2 B<make_modules [PARAMS]>
 
-see the documentation for Rose::DB::Object::Loader for the bulk of the 
+see the documentation for Rose::DB::Object::Loader for the bulk of the
 configuration options for make_modules. FormMaker adds a couple of options
 to what Loader provides described below:
 
@@ -54,22 +54,22 @@ sub make_modules {
 
     my @classes = $self->SUPER::make_modules(%args);
 
-    my $module_dir = exists $args{'module_dir'} ? 
+    my $module_dir = exists $args{'module_dir'} ?
         delete $args{'module_dir'} : $self->module_dir;
 
     $module_dir = cwd()  unless(defined $module_dir);
-    
+
     my @form_classes;
     foreach my $class (@classes) {
 
         next unless ($class->isa('Rose::DB::Object'));
 
         my $class_name = scalar $class;
-	my $class_prefix = $self->class_prefix;
-	my $form_prefix = $self->form_prefix;
+        my $class_prefix = $self->class_prefix;
+        my $form_prefix = $self->form_prefix;
 
-	$class_name =~ s|$class_prefix|$form_prefix|;
-	push @form_classes, $class_name;
+        $class_name =~ s|$class_prefix|$form_prefix|;
+        push @form_classes, $class_name;
 
         my @path = split('::', $class_name);
         $path[-1] .= '.pm';
@@ -91,15 +91,15 @@ sub make_modules {
 
         open(my $pm, '>', $file) or croak "Could not create $file - $!";
 
-        my $preamble = exists $args{'module_preamble'} ? 
+        my $preamble = exists $args{'module_preamble'} ?
             $args{'module_preamble'} : $self->module_preamble;
 
-        my $postamble = exists $args{'module_postamble'} ? 
+        my $postamble = exists $args{'module_postamble'} ?
             $args{'module_postamble'} : $self->module_postamble;
 
         if ($class->isa('Rose::DB::Object')) {
             if($preamble) {
-                my $this_preamble = ref $preamble eq 'CODE' ? 
+                my $this_preamble = ref $preamble eq 'CODE' ?
                     $preamble->($class->meta) : $preamble;
 
                 print {$pm} $this_preamble;
@@ -108,7 +108,7 @@ sub make_modules {
             print {$pm} $self->class_to_form($class);
 
             if($postamble) {
-                my $this_postamble = ref $postamble eq 'CODE' ? 
+                my $this_postamble = ref $postamble eq 'CODE' ?
                     $postamble->($class->meta) : $postamble;
 
                 print {$pm} $this_postamble;
@@ -117,14 +117,14 @@ sub make_modules {
     }
     push @classes, @form_classes;
 
-    return wantarray ? @classes : \@classes; 
+    return wantarray ? @classes : \@classes;
 }
 
 =head2 class_to_form
 
 =over 4
 
-class_to_form takes an RDBO class, and using it's meta information 
+class_to_form takes an RDBO class, and using it's meta information
 constructs an RHTMLO Form object.
 
 =back
@@ -137,7 +137,7 @@ sub class_to_form {
     my $class_prefix = $self->class_prefix;
     my $form_prefix = $self->form_prefix;
     $class_name =~ s|$class_prefix|$form_prefix|;
-    
+
     my $code;
 
     my $base_classes = $self->form_base_classes;
@@ -145,7 +145,7 @@ sub class_to_form {
     my $isa;
     foreach my $class (@$base_classes) {
         $uses .= $uses ? qq[\n] . qq[use $class;] : qq[use $class;];
-	$isa .= $isa ? qq[ ]. $class : $class;
+        $isa .= $isa ? qq[ ]. $class : $class;
     }
 
     $code .=qq[package $class_name;
@@ -165,13 +165,13 @@ sub build_form {
     foreach my $column (sort __by_rank $class->meta->columns){
         #print STDERR $column.qq[ ] . $column->type .qq[\n];
         #$code .= $column.qq[\n];
-	my $column_name = scalar $column;
+        my $column_name = scalar $column;
         $code .= qq[
         $column_name => {
             id => '$column_name',
-	    type => '].$column->type.qq[',
+            type => '].$column->type.qq[',
             label => '$column_name',
-	    tabindex => $count,
+            tabindex => $count,
         },];
         $count++;
     }
@@ -181,7 +181,7 @@ sub build_form {
 
 1;
 ];
-    
+
     return $code;
 }
 
@@ -211,7 +211,7 @@ sub form_prefix {
 #
 # ripped from loader to sort columns
 #
-sub __by_rank {  
+sub __by_rank {
   my $pos1 = $a->ordinal_position;
   my $pos2 = $b->ordinal_position;
 
@@ -234,18 +234,18 @@ sub form_base_classes {
     unless (@_) {
         if (my $bc = $self->{'form_base_classes'}) {
             return wantarray ? @$bc : $bc;
-	}
-	my $bc = [qq[Rose::HTML::Form]];
-	
-	return wantarray ? @$bc : $bc;
     }
-    
+    my $bc = [qq[Rose::HTML::Form]];
+
+    return wantarray ? @$bc : $bc;
+    }
+
     my $bc = shift;
 
     unless (ref($bc)) {
         $bc = [ $bc ];
     }
-    
+
     $self->{'form_base_classes'} = $bc;
     return wantarray ? @$bc : $bc;
 
