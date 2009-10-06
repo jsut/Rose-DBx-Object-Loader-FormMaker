@@ -165,14 +165,22 @@ sub build_form {
     foreach my $column (sort __by_rank $class->meta->columns){
         #print STDERR $column.qq[ ] . $column->type .qq[\n];
         #$code .= $column.qq[\n];
-        my $column_name = scalar $column;
-        $code .= qq[
-        $column_name => {
-            id => '$column_name',
-            type => '].$column->type.qq[',
-            label => '$column_name',
-            tabindex => $count,
-        },];
+        my $form_info = [
+            [ id => scalar $column ],
+            [ type => $column->type ],
+            [ label => scalar $column ],
+            [ tabindex => $count ],
+        ];
+        if ($column->length) {
+            push @$form_info, ['maxlength' => $column->length];
+        }
+
+        $code .= qq[\n        ] . scalar $column . qq[ => {];
+        foreach my $row (@$form_info) {
+            my ($key,$value) = @$row;
+            $code .= qq[\n            $key => '$value',];
+        }
+        $code .= qq[\n        },];
         $count++;
     }
     $code .= qq[
