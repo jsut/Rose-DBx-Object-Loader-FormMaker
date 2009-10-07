@@ -9,11 +9,13 @@ my $build = Module::Build->new(
     create_readme       => 1,
     dist_author         => 'Adam Prime (adam.prime@utoronto.ca)',
     requires            => {
-        'Rose::DB::Object'         => '0i.765',
-        'Rose::HTML::Objects'       => '0.549',
-	'Rose::DBx::TestDB'        =>  0.04,
-	'Path::Class'              =>  0,
+        'Rose::DB::Object'     => '0.765',
+        'Rose::HTML::Objects'  => '0.549',
+        'Path::Class'          =>  0,
     },
+    build_requires      => {
+        'Rose::DBx::TestDB'    =>  0.04,
+    }
 );
 
 $build->create_build_script();
